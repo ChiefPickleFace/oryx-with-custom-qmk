@@ -5,6 +5,9 @@
 
 enum custom_keycodes {
   RGB_SLD = ML_SAFE_RANGE,
+  ST_MACRO_0,
+  ST_MACRO_1,
+  ST_MACRO_2,
 };
 
 
@@ -38,7 +41,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [1] = LAYOUT_voyager(
     KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,                                          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         
     KC_GRAVE,       KC_LCBR,        KC_RCBR,        KC_LBRC,        KC_RBRC,        LALT(LGUI(LCTL(LSFT(KC_QUOTE)))),                                KC_TRANSPARENT, KC_7,           KC_8,           KC_9,           KC_PLUS,        KC_ASTR,        
-    KC_TRANSPARENT, LGUI(KC_A),     KC_TRANSPARENT, LALT(LGUI(LCTL(LSFT(KC_SPACE)))),LGUI(KC_T),     KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_4,           KC_5,           KC_6,           KC_MINUS,       KC_SLASH,       
+    KC_TRANSPARENT, LGUI(KC_A),     KC_TRANSPARENT, LALT(LGUI(LCTL(LSFT(KC_SPACE)))),LGUI(KC_T),     ST_MACRO_0,                                     KC_TRANSPARENT, KC_4,           KC_5,           KC_6,           KC_MINUS,       KC_SLASH,       
     LALT(LCTL(KC_Z)),LGUI(KC_Z),     LGUI(KC_X),     LGUI(KC_C),     LALT(LGUI(LSFT(KC_V))),LGUI(KC_V),                                     KC_TRANSPARENT, KC_1,           KC_2,           KC_3,           KC_DOT,         KC_EQUAL,       
                                                     KC_BSPC,        KC_TRANSPARENT,                                 KC_0,           KC_SPACE
   ),
@@ -46,29 +49,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     RGB_TOG,        LALT(LSFT(KC_1)),LALT(LSFT(KC_2)),LALT(LSFT(KC_3)),KC_TRANSPARENT, KC_TRANSPARENT,                                 LALT(LSFT(KC_6)),LALT(LSFT(KC_7)),LALT(LSFT(KC_8)),RALT(RGUI(RCTL(RSFT(KC_RIGHT)))),RALT(RGUI(RCTL(RSFT(KC_LEFT)))),QK_BOOT,        
     LALT(LGUI(LCTL(LSFT(KC_EQUAL)))),KC_TRANSPARENT, KC_AUDIO_MUTE,  KC_AUDIO_VOL_DOWN,KC_AUDIO_VOL_UP,KC_TRANSPARENT,                                 LALT(LSFT(KC_SLASH)),LGUI(LSFT(KC_SLASH)),KC_UP,          RALT(RGUI(RCTL(RSFT(KC_Y)))),KC_TRANSPARENT, KC_TRANSPARENT, 
     LALT(LGUI(LCTL(LSFT(KC_MINUS)))),KC_LEFT_GUI,    KC_LEFT_ALT,    KC_LEFT_CTRL,   KC_LEFT_SHIFT,  KC_TRANSPARENT,                                 RGUI(RSFT(KC_M)),KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, RCTL(KC_LEFT),  RCTL(KC_RIGHT), KC_TRANSPARENT, RGUI(KC_ENTER), 
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 ST_MACRO_1,     ST_MACRO_2,     RCTL(KC_LEFT),  RCTL(KC_RIGHT), KC_TRANSPARENT, RGUI(KC_ENTER), 
                                                     LALT(KC_BSPC),  KC_DELETE,                                      KC_TRANSPARENT, KC_TRANSPARENT
   ),
 };
 
 const uint16_t PROGMEM combo0[] = { KC_SPACE, KC_BSPC, COMBO_END};
 const uint16_t PROGMEM combo1[] = { MT(MOD_RGUI, KC_O), MT(MOD_LGUI, KC_A), COMBO_END};
-const uint16_t PROGMEM combo2[] = { KC_BSPC, MT(MOD_LGUI, KC_A), COMBO_END};
 
 combo_t key_combos[COMBO_COUNT] = {
     COMBO(combo0, LGUI(KC_SPACE)),
     COMBO(combo1, LALT(LGUI(LCTL(LSFT(KC_SPACE))))),
-    COMBO(combo2, LGUI(KC_A)),
 };
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
+        case MT(MOD_LGUI, KC_A):
+            return TAPPING_TERM + 100;
+        case MT(MOD_LALT, KC_R):
+            return TAPPING_TERM + 100;
+        case MT(MOD_LCTL, KC_S):
+            return TAPPING_TERM + 100;
         case MT(MOD_LSFT, KC_T):
-            return TAPPING_TERM -50;
+            return TAPPING_TERM -20;
         case TD(DANCE_7):
             return TAPPING_TERM -75;
         case MT(MOD_RSFT, KC_N):
-            return TAPPING_TERM -50;
+            return TAPPING_TERM -20;
+        case MT(MOD_RCTL, KC_E):
+            return TAPPING_TERM + 100;
+        case MT(MOD_RALT, KC_I):
+            return TAPPING_TERM + 100;
+        case MT(MOD_RGUI, KC_O):
+            return TAPPING_TERM + 100;
         case TD(DANCE_14):
             return TAPPING_TERM -75;
         default:
@@ -128,6 +141,21 @@ bool rgb_matrix_indicators_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
+    case ST_MACRO_0:
+    if (record->event.pressed) {
+      SEND_STRING(SS_LGUI(SS_TAP(X_T)) SS_DELAY(100) SS_LGUI(SS_TAP(X_V)) SS_DELAY(100) SS_TAP(X_SPACE)  SS_DELAY(100) SS_TAP(X_ENTER));
+    }
+    break;
+    case ST_MACRO_1:
+    if (record->event.pressed) {
+      SEND_STRING(SS_TAP(X_N) SS_DELAY(100) SS_TAP(X_E) SS_DELAY(100) SS_TAP(X_E) SS_DELAY(100) SS_TAP(X_N) SS_DELAY(100) SS_TAP(X_ENTER));
+    }
+    break;
+    case ST_MACRO_2:
+    if (record->event.pressed) {
+      SEND_STRING(SS_LSFT(SS_TAP(X_P)) SS_DELAY(100) SS_TAP(X_3) SS_DELAY(100) SS_TAP(X_DOT)  SS_DELAY(100) SS_TAP(X_ENTER));
+    }
+    break;
 
     case RGB_SLD:
       if (record->event.pressed) {
