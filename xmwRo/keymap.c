@@ -1,6 +1,7 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
 #include "features/achordion.h"
+#include "send_string.h" // Ensure this header is included
 #define MOON_LED_LEVEL LED_LEVEL
 #define ML_SAFE_RANGE SAFE_RANGE
 
@@ -143,29 +144,32 @@ bool rgb_matrix_indicators_user(void) {
   return true;
 }
 
+
+
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (!process_achordion(keycode, record)) { return false; }
 
   switch (keycode) {
     case ST_MACRO_0:
-    if (record->event.pressed) {
-      SEND_STRING(SS_LGUI(SS_TAP(X_T)) SS_DELAY(50) SS_LGUI(SS_TAP(X_V)) SS_DELAY(50) SS_TAP(X_SPACE)  SS_DELAY(50) SS_TAP(X_ENTER));
-    }
-    break;
+      if (record->event.pressed) {
+        SEND_STRING(SS_LGUI(SS_TAP(X_T)) SS_DELAY(50) SS_LGUI(SS_TAP(X_V)) SS_DELAY(50) SS_TAP(X_SPACE)  SS_DELAY(50) SS_TAP(X_ENTER));
+      }
+      break;
     case ST_MACRO_1:
-    if (record->event.pressed) {
-      SEND_STRING(SS_LSFT(SS_TAP(X_P)) SS_DELAY(50) SS_TAP(X_I) SS_DELAY(50) SS_TAP(X_C) SS_DELAY(50) SS_TAP(X_K) SS_DELAY(50) SS_TAP(X_L) SS_DELAY(50) SS_TAP(X_E) SS_DELAY(50) 
-        SS_TAP(X_F) SS_DELAY(50) SS_TAP(X_A) SS_DELAY(50) SS_TAP(X_C) SS_DELAY(50) SS_TAP(X_E) SS_DELAY(50) SS_TAP(X_3) SS_DELAY(50) SS_TAP(X_2) SS_DELAY(50) SS_TAP(X_1) SS_DELAY(50) SS_TAP(X_DOT)  SS_DELAY(50) 
-        SS_TAP(X_ENTER));
-    }
-    break;
+      if (record->event.pressed) {
+        SEND_STRING(SS_LSFT(SS_TAP(X_P)) SS_DELAY(50) SS_TAP(X_I) SS_DELAY(50) SS_TAP(X_C) SS_DELAY(50) SS_TAP(X_K) SS_DELAY(50) SS_TAP(X_L) SS_DELAY(50) SS_TAP(X_E) SS_DELAY(50) 
+          SS_TAP(X_F) SS_DELAY(50) SS_TAP(X_A) SS_DELAY(50) SS_TAP(X_C) SS_DELAY(50) SS_TAP(X_E) SS_DELAY(50) SS_TAP(X_3) SS_DELAY(50) SS_TAP(X_2) SS_DELAY(50) SS_TAP(X_1) SS_DELAY(50) SS_TAP(X_DOT)  SS_DELAY(50) 
+          SS_TAP(X_ENTER));
+      }
+      break;
     case ST_MACRO_2:
-    if (record->event.pressed) {
-      SEND_STRING(SS_LSFT(SS_TAP(X_P)) SS_DELAY(50) SS_TAP(X_I) SS_DELAY(50) SS_TAP(X_C) SS_DELAY(50) SS_TAP(X_K) SS_DELAY(50) SS_TAP(X_L) SS_DELAY(50) SS_TAP(X_E) SS_DELAY(50) 
-        SS_TAP(X_F) SS_DELAY(50) SS_TAP(X_A) SS_DELAY(50) SS_TAP(X_C) SS_DELAY(50) SS_TAP(X_E) SS_DELAY(50) SS_TAP(X_3) SS_DELAY(50) SS_TAP(X_2) SS_DELAY(50) SS_TAP(X_1) SS_DELAY(50) SS_TAP(X_DOT);
-    }
-    break;
-
+      if (record->event.pressed) {
+        SEND_STRING(SS_LSFT(SS_TAP(X_P)) SS_DELAY(50) SS_TAP(X_I) SS_DELAY(50) SS_TAP(X_C) SS_DELAY(50) SS_TAP(X_K) SS_DELAY(50) SS_TAP(X_L) SS_DELAY(50) SS_TAP(X_E) SS_DELAY(50) 
+          SS_TAP(X_F) SS_DELAY(50) SS_TAP(X_A) SS_DELAY(50) SS_TAP(X_C) SS_DELAY(50) SS_TAP(X_E) SS_DELAY(50) SS_TAP(X_3) SS_DELAY(50) SS_TAP(X_2) SS_DELAY(50) SS_TAP(X_1) SS_DELAY(50) SS_TAP(X_DOT) SS_DELAY(50) 
+          SS_TAP(X_ENTER)); // Ensure this line is properly closed
+      }
+      break;
 
     case RGB_SLD:
       if (record->event.pressed) {
@@ -175,7 +179,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
-
 
 typedef struct {
     bool is_press_action;
