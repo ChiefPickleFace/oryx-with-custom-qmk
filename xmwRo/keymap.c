@@ -5,8 +5,6 @@
 
 enum custom_keycodes {
   RGB_SLD = ML_SAFE_RANGE,
-  ST_MACRO_0,
-  ST_MACRO_1,
 };
 
 
@@ -39,7 +37,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [1] = LAYOUT_voyager(
     KC_F1,          KC_F2,          KC_F3,          KC_F4,          KC_F5,          KC_F6,                                          KC_F7,          KC_F8,          KC_F9,          KC_F10,         KC_F11,         KC_F12,         
-    KC_GRAVE,       KC_LCBR,        KC_RCBR,        ST_MACRO_0,     ST_MACRO_1,     LALT(LGUI(LCTL(LSFT(KC_QUOTE)))),                                KC_TRANSPARENT, KC_7,           KC_8,           KC_9,           KC_PLUS,        KC_ASTR,        
+    KC_GRAVE,       KC_LCBR,        KC_RCBR,        KC_LBRC,        KC_RBRC,        LALT(LGUI(LCTL(LSFT(KC_QUOTE)))),                                KC_TRANSPARENT, KC_7,           KC_8,           KC_9,           KC_PLUS,        KC_ASTR,        
     KC_TRANSPARENT, LGUI(KC_A),     KC_TRANSPARENT, LALT(LGUI(LCTL(LSFT(KC_SPACE)))),LGUI(KC_T),     KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_4,           KC_5,           KC_6,           KC_MINUS,       KC_SLASH,       
     LALT(LCTL(KC_Z)),LGUI(KC_Z),     LGUI(KC_X),     LGUI(KC_C),     LALT(LGUI(LSFT(KC_V))),LGUI(KC_V),                                     KC_TRANSPARENT, KC_1,           KC_2,           KC_3,           KC_DOT,         KC_EQUAL,       
                                                     KC_BSPC,        KC_TRANSPARENT,                                 KC_0,           KC_SPACE
@@ -130,16 +128,6 @@ bool rgb_matrix_indicators_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case ST_MACRO_0:
-    if (record->event.pressed) {
-      SEND_STRING(SS_LSFT(SS_TAP(X_QUOTE)) SS_DELAY(100) SS_LSFT(SS_TAP(X_QUOTE)) SS_DELAY(100) SS_TAP(X_LEFT));
-    }
-    break;
-    case ST_MACRO_1:
-    if (record->event.pressed) {
-      SEND_STRING(SS_TAP(X_LBRC) SS_DELAY(100) SS_TAP(X_RBRC) SS_DELAY(100) SS_TAP(X_LEFT));
-    }
-    break;
 
     case RGB_SLD:
       if (record->event.pressed) {
